@@ -80,13 +80,13 @@ fun SignUPScreen(){
     var password by remember { mutableStateOf("") }
     var confirmpsw by remember { mutableStateOf("") }
     var passwordvisibility by remember { mutableStateOf(false) }
-    val scrollState = rememberScrollState()
+    //val scrollState = rememberScrollState()
 
     val icon =if(passwordvisibility) painterResource(id=R.drawable.baseline_visibility_24)
     else
         painterResource(id = R.drawable.baseline_visibility_off_24)
 
-    Column (modifier = Modifier.fillMaxSize().padding(bottom = 20.dp).verticalScroll(scrollState),
+    Column (modifier = Modifier.fillMaxSize().padding(bottom = 20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
