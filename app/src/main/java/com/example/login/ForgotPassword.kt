@@ -73,6 +73,8 @@ fun ForgotPw(){
     var icon= if (passwordvisibility)
     painterResource(id=R.drawable.baseline_visibility_24)
     else painterResource(id=R.drawable.baseline_visibility_off_24)
+
+
         
 
 

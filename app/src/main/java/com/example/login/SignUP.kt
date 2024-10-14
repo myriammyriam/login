@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
@@ -78,12 +80,13 @@ fun SignUPScreen(){
     var password by remember { mutableStateOf("") }
     var confirmpsw by remember { mutableStateOf("") }
     var passwordvisibility by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
 
     val icon =if(passwordvisibility) painterResource(id=R.drawable.baseline_visibility_24)
     else
         painterResource(id = R.drawable.baseline_visibility_off_24)
 
-    Column (modifier = Modifier.fillMaxSize().padding(bottom = 20.dp),
+    Column (modifier = Modifier.fillMaxSize().padding(bottom = 20.dp).verticalScroll(scrollState),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
