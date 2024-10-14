@@ -86,7 +86,7 @@ fun SignUPScreen(){
     else
         painterResource(id = R.drawable.baseline_visibility_off_24)
 
-    Column (modifier = Modifier.fillMaxSize().padding(bottom = 20.dp).verticalScroll(scrollState),
+    Column (modifier = Modifier.fillMaxSize().padding(bottom = 20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
