@@ -86,6 +86,14 @@ fun SignUPScreen(){
     else
         painterResource(id = R.drawable.baseline_visibility_off_24)
 
+    var confirm by remember { mutableStateOf(false) }
+    var Isformvalid by remember { mutableStateOf(false) }
+    if(fullname.isNotBlank()&&username.isNotBlank()&&email.isNotBlank()&&password.isNotBlank()&&confirmpsw.isNotBlank()) Isformvalid=true
+    else Isformvalid =false
+
+    if(password==confirmpsw) confirm=true
+    else confirm=false
+
     Column (modifier = Modifier.fillMaxSize().padding(bottom = 20.dp).verticalScroll(scrollState),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -168,7 +176,13 @@ fun SignUPScreen(){
 
 
 
-        Button(onClick = { }, modifier = Modifier) {
+        Button(onClick = {
+            val intent=Intent(context,First_Page::class.java)
+            if(Isformvalid && confirm)
+                context.startActivity(intent)
+            else println("Check your information")
+
+        }, modifier = Modifier) {
             Text(text ="Sign Up", fontSize = 30.sp )
         }
         Spacer(modifier = Modifier.height(20.dp))
