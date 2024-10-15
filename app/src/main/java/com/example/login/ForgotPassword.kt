@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -74,8 +75,59 @@ fun ForgotPw(){
     painterResource(id=R.drawable.baseline_visibility_24)
     else painterResource(id=R.drawable.baseline_visibility_off_24)
 
+    var Isformvalid by remember { mutableStateOf(false) }
 
-        
+    if(username.isNotBlank()&&password.isNotBlank()&&email.isNotBlank()) Isformvalid=true
+    else Isformvalid =false
+
+
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showDialog = true
+            },
+            title = {
+                Text(text = "Error")
+            },
+            text = {
+                Text(text = "Check your information")
+            },
+            confirmButton = {
+                Button(onClick = {
+                    showDialog = false
+                }) {
+                    Text("OK")
+                }})
+    }
+
+    var showDialog1 by remember { mutableStateOf(false) }
+    if (showDialog1){
+        AlertDialog(
+            onDismissRequest = {
+                showDialog1 =true
+            },
+            title = {
+                Text(text = "validation")
+
+            },
+            text = {
+                Text(text = "Password sent successfully. Thank you for checking your email.")
+            },
+            confirmButton = {
+                Button(onClick = {
+                    showDialog1=false
+                    val intent =Intent(context,MainActivity::class.java)
+                    context.startActivity(intent)
+                }) { Text(text = "OK") }
+            }
+        )}
+
+
+
+
 
 
 
@@ -126,7 +178,13 @@ fun ForgotPw(){
         Spacer(modifier = Modifier.height(16.dp))
 
 
-        Button(onClick = { }, modifier = Modifier) {
+        Button(onClick = {
+            val intent=Intent(context,First_Page::class.java)
+            if(Isformvalid)
+                showDialog1=true
+            else
+                showDialog=true
+        }, modifier = Modifier) {
             Text(text ="Reset Password", fontSize = 30.sp )
         }
         Spacer(modifier = Modifier.height(20.dp))

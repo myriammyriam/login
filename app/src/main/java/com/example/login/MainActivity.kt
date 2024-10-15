@@ -1,5 +1,6 @@
 package com.example.login
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -19,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -58,6 +60,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun SignInScreen(){
 
@@ -69,6 +72,34 @@ fun SignInScreen(){
     val icon =if(passwordvisibility) painterResource(id=R.drawable.baseline_visibility_24)
     else
         painterResource(id = R.drawable.baseline_visibility_off_24)
+
+    var Isformvalid by remember { mutableStateOf(false) }
+
+    if(username.isNotBlank()&&password.isNotBlank()) Isformvalid=true
+    else Isformvalid =false
+
+
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showDialog = false
+            },
+            title = {
+                Text(text = "Error")
+            },
+            text = {
+                Text(text = "Check your information")
+            },
+            confirmButton = {
+                Button(onClick = {
+                    showDialog = false
+                }) {
+                    Text("OK")
+                }})
+    }
 
 
     Column (modifier = Modifier.fillMaxSize(),
@@ -118,7 +149,15 @@ fun SignInScreen(){
                 })
         Spacer(modifier = Modifier.height(50.dp))
 
-        Button(onClick = { }, modifier = Modifier) {
+        Button(onClick = {
+            val intent=Intent(context,First_Page::class.java)
+            if(!Isformvalid)
+                showDialog=true
+            else{
+                intent.putExtra("username",username)
+                intent.putExtra("password",password)
+                context.startActivity(intent)}
+        }, modifier = Modifier) {
             Text(text ="Sign In", fontSize = 30.sp )
         }
         Spacer(modifier = Modifier.height(20.dp))

@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -88,11 +89,32 @@ fun SignUPScreen(){
 
     var confirm by remember { mutableStateOf(false) }
     var Isformvalid by remember { mutableStateOf(false) }
+
     if(fullname.isNotBlank()&&username.isNotBlank()&&email.isNotBlank()&&password.isNotBlank()&&confirmpsw.isNotBlank()) Isformvalid=true
     else Isformvalid =false
 
     if(password==confirmpsw) confirm=true
     else confirm=false
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showDialog = false
+            },
+            title = {
+                Text(text = "Error")
+            },
+            text = {
+                Text(text = "Check your information")
+            },
+            confirmButton = {
+                Button(onClick = {
+                    showDialog = false
+                }) {
+                    Text("OK")
+                }})}
 
     Column (modifier = Modifier.fillMaxSize().padding(bottom = 20.dp).verticalScroll(scrollState),
         verticalArrangement = Arrangement.Center,
@@ -180,7 +202,8 @@ fun SignUPScreen(){
             val intent=Intent(context,First_Page::class.java)
             if(Isformvalid && confirm)
                 context.startActivity(intent)
-            else println("Check your information")
+            else //println("Check your information")
+                showDialog = true
 
         }, modifier = Modifier) {
             Text(text ="Sign Up", fontSize = 30.sp )
