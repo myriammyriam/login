@@ -1,5 +1,6 @@
 package com.example.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -82,6 +83,25 @@ fun SignUPScreen(){
     var confirmpsw by remember { mutableStateOf("") }
     var passwordvisibility by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
+    val PREFS_NAME = "myPrefs"
+    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+    var FullName_save by remember {
+        mutableStateOf( prefs.getString("fullname","")?: "")
+    }
+    var username_save by remember {
+        mutableStateOf( prefs.getString("username","")?: "")
+    }
+    var email_save by remember {
+        mutableStateOf( prefs.getString("email","")?: "")
+    }
+    var password_save by remember {
+        mutableStateOf( prefs.getString("password","")?: "")
+    }
+    var confirmpsw_save by remember {
+        mutableStateOf( prefs.getString("confirmpsw","")?: "")
+    }
+
 
     val icon =if(passwordvisibility) painterResource(id=R.drawable.baseline_visibility_24)
     else
@@ -199,6 +219,8 @@ fun SignUPScreen(){
 
 
         Button(onClick = {
+
+
             val intent=Intent(context,First_Page::class.java)
             if(Isformvalid && confirm)
                 context.startActivity(intent)
@@ -216,6 +238,8 @@ fun SignUPScreen(){
                    val intent =Intent(context,MainActivity::class.java)
                     context.startActivity(intent)
                 } )
+
+
         }
 
         Text(text = " Or Sign Up With", modifier = Modifier.padding(top = 20.dp))
