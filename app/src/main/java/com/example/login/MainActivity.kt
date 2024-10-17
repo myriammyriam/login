@@ -1,6 +1,7 @@
 package com.example.login
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -49,140 +50,142 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.login.ui.theme.LoginTheme
 
+
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            SignInScreen()
 
+
+        val PREFS_NAME = "myPrefs"
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val context = this
+
+        val savedUsername = prefs.getString("username","")
+        val savedPassword = prefs.getString("password","")
+
+
+        if (!savedUsername.isNullOrEmpty() && !savedPassword.isNullOrEmpty()) {
+            Intent(context, First_Page::class.java).apply {
+                putExtra("username", savedUsername)
+                putExtra("password", savedPassword)
+                startActivity(this)
+            }
+
+        } else {
+
+            enableEdgeToEdge()
+            setContent {
+                SignInScreen()
+            }
         }
     }
 }
 
-@SuppressLint("SuspiciousIndentation")
+
+
 @Composable
-fun SignInScreen(){
-
-    val context= LocalContext.current
-
+fun SignInScreen() {
+    val context = LocalContext.current
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var passwordvisibility by remember { mutableStateOf(false) }
-    val icon =if(passwordvisibility) painterResource(id=R.drawable.baseline_visibility_24)
-    else
-        painterResource(id = R.drawable.baseline_visibility_off_24)
+    var passwordVisibility by remember { mutableStateOf(false) }
+    val icon = if (passwordVisibility) painterResource(id = R.drawable.baseline_visibility_24)
+    else painterResource(id = R.drawable.baseline_visibility_off_24)
 
-    var Isformvalid by remember { mutableStateOf(false) }
-
-    if(username.isNotBlank()&&password.isNotBlank()) Isformvalid=true
-    else Isformvalid =false
-
-
-
+    var isFormValid by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+
+    if (username.isNotBlank() && password.isNotBlank()) isFormValid = true
+    else isFormValid = false
 
     if (showDialog) {
         AlertDialog(
-            onDismissRequest = {
-                showDialog = false
-            },
-            title = {
-                Text(text = "Error")
-            },
-            text = {
-                Text(text = "Check your information")
-            },
+            onDismissRequest = { showDialog = false },
+            title = { Text(text = "Erreur") },
+            text = { Text(text = "Vérifiez vos informations") },
             confirmButton = {
-                Button(onClick = {
-                    showDialog = false
-                }) {
+                Button(onClick = { showDialog = false }) {
                     Text("OK")
-                }})
+                }
+            }
+        )
     }
 
+    val PREFS_NAME = "myPrefs"
+    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    Column (modifier = Modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Image(painter = painterResource(id = R.drawable.signin), contentDescription = "Login image"
-           , modifier = Modifier.size(250.dp))
+    ) {
+        Image(painter = painterResource(id = R.drawable.signin), contentDescription = "Image de connexion", modifier = Modifier.size(250.dp))
 
-        Text(text = "Welcom Back", fontSize = 28.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Bienvenue", fontSize = 28.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(4.dp))
-        Text(text = "Login to your account")
-        Spacer(modifier = Modifier.height(16.dp))
-        TextField(value = username, onValueChange = {username=it}, label = {
-            Text(text = "User Name")
-        },leadingIcon = {
-            Icon(imageVector = Icons.Filled.Edit,
-                contentDescription ="icon" )}
-        ,shape = RoundedCornerShape(20.dp))
+        Text(text = "Connectez-vous à votre compte")
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(value = password, onValueChange = {password=it}, label = {
-            Text(text = "Password")
-        }
-        , leadingIcon = { Icon(imageVector =Icons.Filled.Lock, contentDescription = "icon") }
-        ,shape = RoundedCornerShape(20.dp)
-        , trailingIcon = {
-            IconButton(onClick = {
-                passwordvisibility=!passwordvisibility
-            }) {
-                Icon(painter = icon, contentDescription = "icon")
-            }
-            }, visualTransformation = if (passwordvisibility) VisualTransformation.None
-            else PasswordVisualTransformation()
+        TextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text(text = "Nom d'utilisateur") },
+            leadingIcon = { Icon(imageVector = Icons.Filled.Edit, contentDescription = "Icone utilisateur") },
+            shape = RoundedCornerShape(20.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
 
-            )
+        TextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text(text = "Mot de passe") },
+            leadingIcon = { Icon(imageVector = Icons.Filled.Lock, contentDescription = "Icone mot de passe") },
+            shape = RoundedCornerShape(20.dp),
+            trailingIcon = {
+                IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                    Icon(painter = icon, contentDescription = "Visibilité du mot de passe")
+                }
+            },
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation()
+        )
 
-
-        Text(text = "Forgot Password?",
-             textDecoration = TextDecoration.Underline
-            , color = Color.Blue
-            , modifier = Modifier
-                .padding(start = 170.dp)
-                .clickable {
-                    val intent = Intent(context, ForgotPassword::class.java)
-                    context.startActivity(intent)
-                })
         Spacer(modifier = Modifier.height(50.dp))
 
         Button(onClick = {
-            val intent=Intent(context,First_Page::class.java)
-            if(!Isformvalid)
-                showDialog=true
-            else{
-                intent.putExtra("username",username)
-                intent.putExtra("password",password)
-                context.startActivity(intent)}
+            if (!isFormValid) {
+                showDialog = true
+            } else {
+                prefs.edit().putString("username", username).apply()
+                prefs.edit().putString("password", password).apply()
+
+                val intent = Intent(context, First_Page::class.java)
+                intent.putExtra("username", username)
+                intent.putExtra("password", password)
+                context.startActivity(intent)
+                (context as ComponentActivity).finish()
+            }
         }, modifier = Modifier) {
-            Text(text ="Sign In", fontSize = 30.sp )
+            Text(text = "Se connecter", fontSize = 30.sp)
         }
+
         Spacer(modifier = Modifier.height(20.dp))
+
         Row {
-        Text(text = "Don't have an account? ")
-        Text(text = " Sign Up", textDecoration = TextDecoration.Underline, color = Color.Blue, modifier = Modifier.clickable {
-            val intent =Intent(context,SignUP::class.java)
-            context.startActivity(intent)
-        })
+            Text(text = "Pas de compte ? ")
+            Text(
+                text = "S'inscrire",
+                textDecoration = TextDecoration.Underline,
+                color = Color.Blue,
+                modifier = Modifier.clickable {
+                    val intent = Intent(context, SignUP::class.java)
+                    context.startActivity(intent)
+                }
+            )
         }
-
-
-
-
-
-
-
-
-
-
-
     }
 }
-
-
 
 @Preview(showBackground = true)
 @Composable
