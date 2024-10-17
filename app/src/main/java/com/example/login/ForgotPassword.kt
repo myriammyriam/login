@@ -90,7 +90,7 @@ fun ForgotPw(){
                 showDialog = true
             },
             title = {
-                Text(text = "Error")
+                Text(text = "error ")
             },
             text = {
                 Text(text = "Check your information")
