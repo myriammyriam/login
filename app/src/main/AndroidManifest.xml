@@ -13,15 +13,25 @@
         android:theme="@style/Theme.Login"
         tools:targetApi="31">
         <activity
+            android:name=".Description"
+            android:exported="false"
+            android:label="@string/title_activity_description"
+            android:theme="@style/Theme.Login" />
+        <activity
+            android:name=".AnimeList1"
+            android:exported="false"
+            android:label="@string/title_activity_anime_list1"
+            android:theme="@style/Theme.Login" />
+        <activity
             android:name=".First_Page"
             android:exported="false"
             android:label="@string/title_activity_first_page"
             android:theme="@style/Theme.Login" />
-        <activity
+        <!--<activity
             android:name=".ForgotPassword"
             android:exported="false"
             android:label="@string/title_activity_forgot_password"
-            android:theme="@style/Theme.Login" />
+            android:theme="@style/Theme.Login" />-->
         <activity
             android:name=".SignUP"
             android:exported="false"

@@ -65,11 +65,11 @@ class MainActivity : ComponentActivity() {
         val savedUsername = prefs.getString("username","")
         val savedPassword = prefs.getString("password","")
 
+       // println("MainActivity : $savedUsername $savedPassword")
 
         if (!savedUsername.isNullOrEmpty() && !savedPassword.isNullOrEmpty()) {
             Intent(context, First_Page::class.java).apply {
-                putExtra("username", savedUsername)
-                putExtra("password", savedPassword)
+
                 startActivity(this)
             }
 
