@@ -1,4 +1,4 @@
-/*package com.example.login
+package com.example.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -197,11 +197,7 @@ fun ForgotPw(){
         }
 }}
 
-@Composable
-@Preview (showBackground = true)
-fun App2(){
-    ForgotPw()
-}*/
+
 
 
 

@@ -1,4 +1,4 @@
-package com.example.login.data
+/*package com.example.login.data
 
 import com.example.login.R
 
@@ -75,4 +75,4 @@ object DataProvider {
              imageId = R.drawable.p10
          )
      )
-}
+}*/

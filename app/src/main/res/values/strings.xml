@@ -5,4 +5,6 @@
     <string name="title_activity_first_page">First_Page</string>
     <string name="title_activity_anime_list1">AnimeList1</string>
     <string name="title_activity_description">Description</string>
+    <string name="title_activity_add_new_anime">AddNewAnime</string>
+    <string name="title_activity_update">Update</string>
 </resources>
