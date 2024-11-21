@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -89,7 +90,7 @@ fun EditAnimeScreen(oldTitle: String, oldDate: String, oldDescription: String) {
         Button(
             onClick = {
                 if (title.isNotBlank() && date.isNotBlank() && description.isNotBlank()) {
-                   database.updateAnime(oldTitle, title, date, description)
+                   database.updateAnime(oldTitle, title, date, description, newBase64Image = "")
                     val intent = Intent(context, First_Page::class.java)
                     context.startActivity(intent)
                 }

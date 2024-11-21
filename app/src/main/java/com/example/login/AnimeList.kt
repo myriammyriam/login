@@ -2,7 +2,10 @@ package com.example.login
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Base64
+import android.graphics.BitmapFactory
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -23,50 +26,51 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.login.data.Anime
+import com.example.login.utils.Utils
+import java.io.ByteArrayInputStream
 
-class AnimeList1 : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-
-
-        }
-    }
-}
 @Composable
-fun AnimeList(anime: Anime, context: Context){
+fun AnimeList(anime: Anime, context: Context) {
 
-    //val context = LocalContext.current
-    Card(modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp).fillMaxWidth()
-        .clickable {
-            val intent= Intent(context,Description::class.java)
-           intent. putExtra("title", anime.title)
-          intent. putExtra("description", anime.description)
-           intent. putExtra("date", anime.date)
-            intent.putExtra("imageId", anime.imageId)
-            context.startActivity(intent)
 
-        }
-        , shape = RoundedCornerShape(corner = CornerSize(16.dp)) ) {
+    val imageUrl = Utils.Base64toBitmap(anime.imageBase64)
+
+
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .fillMaxWidth()
+            .clickable {
+                val intent = Intent(context, Description::class.java)
+                intent.putExtra("title", anime.title)
+                intent.putExtra("description", anime.description)
+                intent.putExtra("date", anime.date)
+                intent.putExtra("imageId", anime.imageId)
+                context.startActivity(intent)
+            },
+        shape = RoundedCornerShape(corner = CornerSize(16.dp))
+    ) {
         Row {
-            Image(
-                painter = painterResource(id = anime.imageId),
+
+            AsyncImage(
+                model = imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
+                    .padding(8.dp)
                     .size(84.dp)
                     .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
             )
+
+
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(text = anime.title, style = typography.titleLarge)
                 Text(text = anime.date, style = typography.bodyMedium)
-
             }
-
         }
     }
 }
+

@@ -31,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.login.data.Anime
 import com.example.login.data.Database
+import com.example.login.utils.Utils
 
 class Description : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +43,8 @@ class Description : ComponentActivity() {
         val date = intent.getStringExtra("date") ?: "no_data"
         val imageId = intent.getIntExtra("imageId", R.drawable.p1)
 
+
+
         val db = Database(this)
 
         setContent {
@@ -51,7 +54,8 @@ class Description : ComponentActivity() {
                     title = title,
                     date = date,
                     description = description,
-                    imageId = imageId
+                    imageId = imageId,
+                    imageBase64 = ""
                 ),
                 db=db
 
@@ -62,6 +66,7 @@ class Description : ComponentActivity() {
 
 @Composable
 fun description(anime: Anime, db: Database) {
+    val imageUrl = Utils.Base64toBitmap(anime.imageBase64)
     val context = LocalContext.current
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
