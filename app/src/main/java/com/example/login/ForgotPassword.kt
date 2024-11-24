@@ -197,11 +197,7 @@ fun ForgotPw(){
         }
 }}
 
-@Composable
-@Preview (showBackground = true)
-fun App2(){
-    ForgotPw()
-}
+
 
 
 

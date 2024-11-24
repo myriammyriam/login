@@ -65,11 +65,11 @@ class MainActivity : ComponentActivity() {
         val savedUsername = prefs.getString("username","")
         val savedPassword = prefs.getString("password","")
 
+       // println("MainActivity : $savedUsername $savedPassword")
 
         if (!savedUsername.isNullOrEmpty() && !savedPassword.isNullOrEmpty()) {
             Intent(context, First_Page::class.java).apply {
-                putExtra("username", savedUsername)
-                putExtra("password", savedPassword)
+
                 startActivity(this)
             }
 
@@ -123,15 +123,15 @@ fun SignInScreen() {
     ) {
         Image(painter = painterResource(id = R.drawable.signin), contentDescription = "Image de connexion", modifier = Modifier.size(250.dp))
 
-        Text(text = "Bienvenue", fontSize = 28.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Welcom", fontSize = 28.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(4.dp))
-        Text(text = "Connectez-vous à votre compte")
+        Text(text = "Login to your account")
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
             value = username,
             onValueChange = { username = it },
-            label = { Text(text = "Nom d'utilisateur") },
+            label = { Text(text = "username") },
             leadingIcon = { Icon(imageVector = Icons.Filled.Edit, contentDescription = "Icone utilisateur") },
             shape = RoundedCornerShape(20.dp)
         )
@@ -140,7 +140,7 @@ fun SignInScreen() {
         TextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text(text = "Mot de passe") },
+            label = { Text(text = "password") },
             leadingIcon = { Icon(imageVector = Icons.Filled.Lock, contentDescription = "Icone mot de passe") },
             shape = RoundedCornerShape(20.dp),
             trailingIcon = {
@@ -161,25 +161,38 @@ fun SignInScreen() {
                 prefs.edit().putString("password", password).apply()
 
                 val intent = Intent(context, First_Page::class.java)
-                intent.putExtra("username", username)
-                intent.putExtra("password", password)
+                //intent.putExtra("username", username)
+                //intent.putExtra("password", password)
                 context.startActivity(intent)
-                (context as ComponentActivity).finish()
+               // (context as ComponentActivity).finish()
             }
         }, modifier = Modifier) {
-            Text(text = "Se connecter", fontSize = 30.sp)
+            Text(text = "Login", fontSize = 30.sp)
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Row {
-            Text(text = "Pas de compte ? ")
+            Text(text = "Don't have an account ? ")
             Text(
-                text = "S'inscrire",
+                text = "Sign up",
                 textDecoration = TextDecoration.Underline,
                 color = Color.Blue,
                 modifier = Modifier.clickable {
                     val intent = Intent(context, SignUP::class.java)
+                    context.startActivity(intent)
+                }
+            )
+        }
+
+
+        Row {
+            Text(
+                text = "Forgot your password ?",
+                textDecoration = TextDecoration.Underline,
+                color = Color.Blue,
+                modifier = Modifier.clickable {
+                    val intent = Intent(context, ForgotPassword::class.java)
                     context.startActivity(intent)
                 }
             )
