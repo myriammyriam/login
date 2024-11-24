@@ -49,6 +49,7 @@ fun AnimeList(anime: Anime, context: Context) {
                 intent.putExtra("description", anime.description)
                 intent.putExtra("date", anime.date)
                 intent.putExtra("imageId", anime.imageId)
+                intent.putExtra("imagebase64", anime.imageBase64)
                 context.startActivity(intent)
             },
         shape = RoundedCornerShape(corner = CornerSize(16.dp))

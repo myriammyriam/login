@@ -154,6 +154,6 @@ class Database(var context: Context?) :
         const val COLUMN_TITLE = "Anime_title"
         const val COLUMN_DATE = "Anime_date"
         const val COLUMN_DESCRIPTION = "Anime_description"
-        const val COLUMN_IMAGE = "Anime_image" // Nouvelle colonne pour l'image
+        const val COLUMN_IMAGE = "Anime_image"
     }
 }
